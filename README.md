@@ -1,5 +1,20 @@
 # node-inist-ark
 
+NodeJS package used to handle "normalized" ARK for the INIST organization.
+
+INIST's ARK anatomy is:
+
+```
+    ark:/67375/39D-L2DM2F95-7
+    \__/ \___/ \__/\______/\_/
+     |     |    |     |     |
+ARK Label  |    |     |     Check sum
+           |    |    Identifier
+           |   Sub-publisher (it has to be generated in the centralized INIST ARK registry)
+           |
+Name Assigning Authority Number (NAAN) (67375 is dedicated for INIST)
+```
+
 ## Install
 
 ```shell
@@ -16,7 +31,6 @@ generator.options({
   naan: '67375',
   subpublisher: '39D'
 });
-generator.generate(); // returns: ark:/67375/39D-L2DM2F95-7
 generator.generate(); // returns: ark:/67375/39D-L2DM2F95-7
 generator.generate(); // returns: ark:/67375/015-FG0H2546-9
 generator.generate(); // returns: ark:/67375/015-X73BVHH2-2
