@@ -28,8 +28,14 @@ npm i inist-ark
 ```javascript
 var generator = require('inist-ark').generator;
 generator.options({
+  // warn: do not modify this option if your are generating ARK for INIST's ressources
   naan: '67375',
-  subpublisher: '39D'
+  
+  // notice that you have to register a subpublihser for your resource at INIST's central ARK registry
+  subpublisher: '39D',
+
+  // warn: do not modify if you want to be INIST "normalized"
+  alphabet: '0123456789BCDFGHJKLMNPQRSTVWXZ'
 });
 generator.generate(); // returns: ark:/67375/39D-L2DM2F95-7
 generator.generate(); // returns: ark:/67375/015-FG0H2546-9
@@ -72,5 +78,7 @@ validator.validate('ark:/67375/39D-L2DM2F95-7');
 // 
 ```
 
- Alphabet is: 0123456789BCDFGHJKLMNPQRSTVWXZ (notice there is no voyels and everything is uppercase)
+Checksum calculation is based on the [ISSN algorithme](https://en.wikipedia.org/wiki/International_Standard_Serial_Number#Code_format)
+
+Used alphabet is: 0123456789BCDFGHJKLMNPQRSTVWXZ (notice there is no voyels and everything is uppercase)
 
