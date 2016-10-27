@@ -59,7 +59,7 @@ ark.parse('ark:/67375/39D-L2DM2F95-7');
 // returns:
 // { ark:          'ark:/67375/39D-L2DM2F95-7',
 //   naan:         '67375',
-//   name:         '39D-L2DM2F95-7'
+//   name:         '39D-L2DM2F95-7',
 //   subpublisher: '39D',
 //   identifier:   'L2DM2F95',
 //   checksum:     '7'
