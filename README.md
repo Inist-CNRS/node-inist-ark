@@ -7,7 +7,7 @@ NodeJS package used to handle "normalized" ARK for the INIST organization.
 INIST's ARK anatomy is:
 
 ```
-    ark:/67375/39D-L2DM2F95-7
+    ark:/67375/39D-F91G0S39-N
     \__/ \___/ \__/\______/\_/
      |     |    |     |     |
 ARK Label  |    |     |     Check sum (1 char)
@@ -42,7 +42,7 @@ ark.generate(); // returns: ark:/67375/4G1-D4S484DN-9
 ark.generate(); // returns: ark:/67375/4G1-TT6MHSX5-9
 
 var ark2 = new InistArk();
-ark2.generate({ subpublisher: '39D' }); // returns: ark:/67375/39D-L2DM2F95-7
+ark2.generate({ subpublisher: '39D' }); // returns: ark:/67375/39D-F91G0S39-N
 ark2.generate({ subpublisher: '015' }); // returns: ark:/67375/015-FG0H2546-9
 ark2.generate({ subpublisher: '015' }); // returns: ark:/67375/015-X73BVHH2-2
 ark2.generate({ subpublisher: '015' }); // returns: ark:/67375/015-TD0G7P90-X
@@ -57,7 +57,7 @@ ark2.generate({ subpublisher: '015' }); // returns: ark:/67375/015-58VCS11W-9
 var InistArk = require('inist-ark');
 
 var ark = new InistArk();
-ark.parse('ark:/67375/39D-L2DM2F95-7');
+ark.parse('ark:/67375/39D-F91G0S39-N');
 // returns:
 // { ark:          'ark:/67375/39D-L2DM2F95-7',
 //   naan:         '67375',
@@ -79,7 +79,7 @@ ark.parse('ark:/67375/39D-L2-');
 var InistArk = require('inist-ark');
 
 var ark = new InistArk();
-ark.validate('ark:/67375/39D-L2DM2F95-7');
+ark.validate('ark:/67375/39D-F91G0S39-N');
 // returns:
 // { ark: true,          // false if one of the following fields is false
 //   naan: true,         // false if it's not the inist naan 
