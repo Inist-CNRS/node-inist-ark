@@ -1,6 +1,6 @@
 {
   "name": "inist-ark",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "NodeJS package used to handle \"normalized\" ARK for the INIST organization",
   "main": "index.js",
   "scripts": {
