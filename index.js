@@ -12,15 +12,15 @@ function InistArk(opt) {
 // JS implentation of NCDA - see http://search.cpan.org/~jak/Noid/noid#NOID_CHECK_DIGIT_ALGORITHM
 function ncda(input, alphabet) {
   var R = alphabet.length;
-  var chr = input.split(''), ord = [], pos = []
-  chr.forEach(function(c, i) {
-    var z = alphabet.indexOf(c)
+  var chr = input.split(''), ord = [], pos = [];
+  chr.forEach(function (c, i) {
+    var z = alphabet.indexOf(c);
     ord.push(z > 0 ? z : 0);
     pos.push(i + 1);
-  })
+  });
   var sum = 0;
-  pos.forEach(function(p, i) {
-    sum += (p * ord[i])
+  pos.forEach(function (p, i) {
+    sum += (p * ord[i]);
   });
   var x = sum % R;
   return alphabet[x];
@@ -44,7 +44,10 @@ InistArk.prototype.generate = function (opt) {
     identifier += self.alphabet[Math.floor(Math.random() * self.alphabet.length)];
   }
 
-  return 'ark:/67375/' + subpublisher + '-' + identifier + '-' + ncda('67375/' + subpublisher + '-' + identifier, self.alphabet);
+  return 'ark:/67375/' +
+    subpublisher + '-' +
+    identifier + '-' +
+    ncda('67375/' + subpublisher + '-' + identifier, self.alphabet);
 };
 
 
@@ -60,47 +63,54 @@ InistArk.prototype.generate = function (opt) {
  *     identifier:   'L2DM2F95',
  *     checksum:     '7'
  *   }
- */  
+ */
 InistArk.prototype.parse = function (rawArk) {
   var seg = rawArk.split('/');
+  var err;
   if (seg.length != 3) {
-    throw new Error({ msg: 'Invalid ARK syntax', code: 'ark-parts' });
+    err = new Error('Invalid ARK syntax');
+    err.code = 'ark-parts';
+    throw err;
   }
   if (seg[0] !== 'ark:') {
-    throw new Error({ msg: 'Unknown ARK label', code: 'ark-label' });
+    err = new Error('Unknown ARK label');
+    err.code = 'ark-label';
+    throw err;
   }
   if (seg[1] !== this.naan) {
-    throw new Error({ msg: 'Unknow ARK NAAN', code: 'ark-naan' });
+    err = new Error('Unknow ARK NAAN');
+    err.code = 'ark-naan';
+    throw err;
   }
-  if (seg[2].split('-').length !== 3) {
-    throw new Error({ msg: 'Invalid ARK name syntax', code: 'ark-name-parts' });
+  var nameSplitted = seg[2].split('-');
+  if (nameSplitted.length != 3) {
+    err = new Error('Invalid ARK name syntax');
+    err.code = 'ark-name-parts';
+    throw err;
   }
   var result = {
     ark:          rawArk,
     naan :        seg[1],
     name:         seg[2],
-    subpublisher: seg[2].substring(0, 3),
-    identifier:   seg[2].substring(4, 12),
-    checksum:     seg[2].substring(13, 14)
+    subpublisher: nameSplitted[0],
+    identifier:   nameSplitted[1],
+    checksum:     nameSplitted[2]
   };
 
   if (result.subpublisher.length != 3) {
-    throw new Error({
-      msg:  'Invalid ARK subpublisher: should be 3 characters long',
-      code: 'ark-subpublisher-length'
-    });
+    err = new Error('Invalid ARK subpublisher: should be 3 characters long');
+    err.code = 'ark-subpublisher-length';
+    throw err;
   }
   if (result.identifier.length != 8) {
-    throw new Error({
-      msg:  'Invalid ARK identifier: should be 8 characters long',
-      code: 'ark-identifier-length'
-    });
+    err = new Error('Invalid ARK identifier: should be 8 characters long');
+    err.code = 'ark-identifier-length';
+    throw err;
   }
   if (result.checksum.length != 1) {
-    throw new Error({
-      msg:  'Invalid ARK checksum: should be 1 character long',
-      code: 'ark-checksum-length'
-    });
+    err = new Error('Invalid ARK checksum: should be 1 character long');
+    err.code = 'ark-checksum-length';
+    throw err;
   }
   return result;
 };
@@ -113,31 +123,33 @@ InistArk.prototype.parse = function (rawArk) {
  *   ark.validate('ark:/67375/39D-L2DM2F95-7');
  * Returns:
  *   { ark: true,          // false if one of the following fields is false
- *     naan: true,         // false if it's not the inist naan 
+ *     naan: true,         // false if it's not the inist naan
  *     name: true,         // false if subpubliser, identifier or checksum is false
  *     subpublisher: true, // false if not 3 char length and not respecting the alphabet
  *     identifier: true,   // false if not 8 chars len or if it does not respect the alphabet
  *     checksum: true      // false if the checksum is wrong
  *   }
- *   
- */  
+ *
+ */
 InistArk.prototype.validate = function (rawArk) {
   var self          = this;
 
-  var arkSplitted = {};
   var result = {
-    ark:          true,         
-    naan:         true,        
-    name:         true,        
+    ark:          true,
+    naan:         true,
+    name:         true,
     subpublisher: true,
-    identifier:   true,  
-    checksum:     true     
+    identifier:   true,
+    checksum:     true
   };
 
-  // try to parse the ARK then tell what part is wrong
+  // try to parse the ARK to know which part is wrong
   try {
-    arkSplitted = self.parse(rawArk);
+
+    self.parse(rawArk);
+
   } catch (err) {
+
     result.ark = false;
     if (err.code == 'ark-naan') {
       result.naan = false;
@@ -150,23 +162,22 @@ InistArk.prototype.validate = function (rawArk) {
     }
     if (err.code == 'ark-subpublisher-length') {
       result.subpublisher = false;
+      result.checksum     = false;
     }
     if (err.code == 'ark-identifier-length') {
       result.identifier = false;
+      result.checksum   = false;
     }
     if (err.code == 'ark-checksum-length') {
       result.checksum = false;
     }
+
   }
+
   if (result.checksum == false ||
       result.subpublisher == false ||
       result.identifier == false) {
     result.name = false;
-  }
-
-  // NAAN checking
-  if (arkSplitted.naan !== self.naan) {
-    result.naan = false;
   }
 
   return result;

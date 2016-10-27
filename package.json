@@ -41,5 +41,7 @@
     "chai": "^3.5.0",
     "mocha": "^3.1.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "verror": "^1.8.1"
+  }
 }

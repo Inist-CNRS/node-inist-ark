@@ -56,7 +56,7 @@ describe('inist-ark validator', function () {
       name: false,
       subpublisher: false,
       identifier: true,
-      checksum: true
+      checksum: false
     });
     done();
   });
