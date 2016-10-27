@@ -60,16 +60,16 @@ InistArk.prototype.generate = function (opt) {
 InistArk.prototype.parse = function (rawArk) {
   var seg = rawArk.split('/');
   if (seg.length != 3) {
-    throw new Error('Invalid ARK syntax');
+    throw new Error({ msg: 'Invalid ARK syntax', code: 'ark-parts' });
   }
   if (seg[0] !== 'ark:') {
-    throw new Error('Unknown ARK label');
+    throw new Error({ msg: 'Unknown ARK label', code: 'ark-label' });
   }
   if (seg[1] !== this.naan) {
-    throw new Error('Unknow ARK NAAN');
+    throw new Error({ msg: 'Unknow ARK NAAN', code: 'ark-naan' });
   }
   if (seg[2].split('-').length !== 3) {
-    throw new Error('Invalid ARK name syntax');
+    throw new Error({ msg: 'Invalid ARK name syntax', code: 'ark-name-parts' });
   }
   var result = {
     ark:          rawArk,
@@ -81,13 +81,22 @@ InistArk.prototype.parse = function (rawArk) {
   };
 
   if (result.subpublisher.length != 3) {
-    throw new Error('Invalid ARK subpublisher: should be 3 characters long');
+    throw new Error({
+      msg:  'Invalid ARK subpublisher: should be 3 characters long',
+      code: 'ark-subpublisher-length'
+    });
   }
   if (result.identifier.length != 8) {
-    throw new Error('Invalid ARK identifier: should be 8 characters long');
+    throw new Error({
+      msg:  'Invalid ARK identifier: should be 8 characters long',
+      code: 'ark-identifier-length'
+    });
   }
   if (result.checksum.length != 1) {
-    throw new Error('Invalid ARK checksum: should be 1 character long');
+    throw new Error({
+      msg:  'Invalid ARK checksum: should be 1 character long',
+      code: 'ark-checksum-length'
+    });
   }
   return result;
 };
@@ -111,9 +120,47 @@ InistArk.prototype.parse = function (rawArk) {
 InistArk.prototype.validate = function (rawArk) {
   var self          = this;
 
-  // TODO
+  var arkSplitted = {};
+  var result = {
+    ark:          true,         
+    naan:         true,        
+    name:         true,        
+    subpublisher: true,
+    identifier:   true,  
+    checksum:     true     
+  };
 
-  return {};
+  // try to parse the ARK then tell what part is wrong
+  try {
+    arkSplitted = self.parse(rawArk);
+  } catch (err) {
+    result.ark = false;
+    if (err.code == 'ark-naan') {
+      result.naan = false;
+    }
+    if (err.code == 'ark-name-parts') {
+      result.name         = false;
+      result.checksum     = false;
+      result.subpublisher = false;
+      result.identifier   = false;
+    }
+    if (err.code == 'ark-subpublisher-length') {
+      result.subpublisher = false;
+    }
+    if (err.code == 'ark-identifier-length') {
+      result.identifier = false;
+    }
+    if (err.code == 'ark-checksum-length') {
+      result.checksum = false;
+    }
+  }
+  if (result.checksum == false ||
+      result.subpublisher == false ||
+      result.identifier == false) {
+    result.name = false;
+  }
+
+  return result;
 };
 
 

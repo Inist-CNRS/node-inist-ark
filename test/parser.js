@@ -24,7 +24,10 @@ describe('inist-ark parser', function () {
 
     expect(function () {
       ark.parse('ark:/67375/39D-L2-4');
-    }).to.throw('Invalid ARK identifier: should be 8 characters long');
+    }).to.throw({
+      msg:  'Invalid ARK identifier: should be 8 characters long',
+      code: 'ark-identifier-length'
+    });
 
     done();
   });

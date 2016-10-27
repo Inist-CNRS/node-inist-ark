@@ -61,7 +61,7 @@ describe('inist-ark validator', function () {
     done();
   });
 
-  it('should be able to validate negativly an ARK' +
+  it('should be able to validate negativly an ARK ' +
      'with a wrong naan (not INIST one)', function (done) {
     var ark = new InistArk();
     var result = ark.validate('ark:/37375/39-L2DM2F95-7');
