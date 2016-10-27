@@ -8,9 +8,9 @@ INIST's ARK anatomy is:
     ark:/67375/39D-L2DM2F95-7
     \__/ \___/ \__/\______/\_/
      |     |    |     |     |
-ARK Label  |    |     |     Check sum
-           |    |    Identifier
-           |   Sub-publisher (it has to be generated in the centralized INIST ARK registry)
+ARK Label  |    |     |     Check sum (1 char)
+           |    |    Identifier (8 chars)
+           |   Sub-publisher (3 chars, it has to be generated in the centralized INIST ARK registry)
            |
 Name Assigning Authority Number (NAAN) (67375 is dedicated for INIST)
 ```
