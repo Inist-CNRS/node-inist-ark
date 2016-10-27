@@ -67,7 +67,7 @@ ark.parse('ark:/67375/39D-L2DM2F95-7');
 
 ark.parse('ark:/67375/39D-L2-');
 // returns: an exception 
-//   new Error('Invalid ARK syntaxe')
+//   new Error('Invalid ARK syntax')
  
 ```
 
