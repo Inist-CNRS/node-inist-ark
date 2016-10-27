@@ -9,7 +9,10 @@ function InistArk(opt) {
 }
 
 
-// JS implentation of NCDA - see http://search.cpan.org/~jak/Noid/noid#NOID_CHECK_DIGIT_ALGORITHM
+/**
+ * JS implentation of NCDA
+ * see http://search.cpan.org/~jak/Noid/noid#NOID_CHECK_DIGIT_ALGORITHM
+ */
 function ncda(input, alphabet) {
   var R = alphabet.length;
   var chr = input.split(''), ord = [], pos = [];
