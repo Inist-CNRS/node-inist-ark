@@ -7,7 +7,7 @@ describe('inist-ark validator', function () {
 
   it('should be able to validate positively a valid ARK', function (done) {
     var ark = new InistArk();
-    var result = ark.validate('ark:/67375/39D-L2DM2F95-7');
+    var result = ark.validate('ark:/67375/39D-6W3GQPXD-J');
     expect(result).to.deep.equal({
       ark: true,
       naan: true,
@@ -21,11 +21,11 @@ describe('inist-ark validator', function () {
 
   it('should be able to validate negativly an ARK with a wrong checksum', function (done) {
     var ark = new InistArk();
-    var result = ark.validate('ark:/67375/39D-L2DM2F95-5');
+    var result = ark.validate('ark:/67375/39D-6W3GQPXD-A');
     expect(result).to.deep.equal({
       ark: false,
       naan: true,
-      name: true,
+      name: false,
       subpublisher: true,
       identifier: true,
       checksum: false
@@ -35,7 +35,7 @@ describe('inist-ark validator', function () {
 
   it('should be able to validate negativly an ARK with a wrong identifier', function (done) {
     var ark = new InistArk();
-    var result = ark.validate('ark:/67375/39D-L2DM2-7');
+    var result = ark.validate('ark:/67375/39D-6W3PXD-J');
     expect(result).to.deep.equal({
       ark: false,
       naan: true,
@@ -49,7 +49,7 @@ describe('inist-ark validator', function () {
 
   it('should be able to validate negativly an ARK with a wrong subpublisher', function (done) {
     var ark = new InistArk();
-    var result = ark.validate('ark:/67375/39-L2DM2F95-7');
+    var result = ark.validate('ark:/67375/39-6W3GQPXD-J');
     expect(result).to.deep.equal({
       ark: false,
       naan: true,
@@ -64,7 +64,7 @@ describe('inist-ark validator', function () {
   it('should be able to validate negativly an ARK ' +
      'with a wrong naan (not INIST one)', function (done) {
     var ark = new InistArk();
-    var result = ark.validate('ark:/37375/39-L2DM2F95-7');
+    var result = ark.validate('ark:/37375/39D-6W3GQPXD-J');
     expect(result).to.deep.equal({
       ark: false,
       naan: false,

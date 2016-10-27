@@ -40,6 +40,7 @@ InistArk.prototype.generate = function (opt) {
   var self          = this;
   opt               = opt || {};
   var subpublisher  = opt.subpublisher || self.subpublisher;
+  var naan          = opt.naan || self.naan;
 
   // generate an ARK identifier of 8 characters
   var identifier    = '';
@@ -47,10 +48,10 @@ InistArk.prototype.generate = function (opt) {
     identifier += self.alphabet[Math.floor(Math.random() * self.alphabet.length)];
   }
 
-  return 'ark:/67375/' +
+  return 'ark:/' + naan + '/' +
     subpublisher + '-' +
     identifier + '-' +
-    ncda('67375/' + subpublisher + '-' + identifier, self.alphabet);
+    ncda(naan + '/' + subpublisher + '-' + identifier, self.alphabet);
 };
 
 
@@ -135,7 +136,7 @@ InistArk.prototype.parse = function (rawArk) {
  *
  */
 InistArk.prototype.validate = function (rawArk) {
-  var self          = this;
+  var self = this;
 
   var result = {
     ark:          true,
@@ -149,7 +150,12 @@ InistArk.prototype.validate = function (rawArk) {
   // try to parse the ARK to know which part is wrong
   try {
 
-    self.parse(rawArk);
+    var ark = self.parse(rawArk);
+    var correctCheckSum = ncda(
+      ark.naan + '/' + ark.subpublisher + '-' + ark.identifier,
+      self.alphabet
+    );
+    result.checksum = (correctCheckSum == ark.checksum);
 
   } catch (err) {
 
@@ -180,6 +186,7 @@ InistArk.prototype.validate = function (rawArk) {
   if (result.checksum == false ||
       result.subpublisher == false ||
       result.identifier == false) {
+    result.ark  = false;
     result.name = false;
   }
 
