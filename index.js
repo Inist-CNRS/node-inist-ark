@@ -94,5 +94,27 @@ InistArk.prototype.parse = function (rawArk) {
 
 
 
+/**
+ * INIST's ARK validator
+ * Use it like this:
+ *   ark.validate('ark:/67375/39D-L2DM2F95-7');
+ * Returns:
+ *   { ark: true,          // false if one of the following fields is false
+ *     naan: true,         // false if it's not the inist naan 
+ *     name: true,         // false if subpubliser, identifier or checksum is false
+ *     subpublisher: true, // false if not 3 char length and not respecting the alphabet
+ *     identifier: true,   // false if not 8 chars len or if it does not respect the alphabet
+ *     checksum: true      // false if the checksum is wrong
+ *   }
+ *   
+ */  
+InistArk.prototype.validate = function (rawArk) {
+  var self          = this;
+
+  // TODO
+
+  return {};
+};
+
 
 module.exports = InistArk;
