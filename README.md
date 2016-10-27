@@ -84,9 +84,9 @@ ark.validate('ark:/67375/39D-L2DM2F95-7');
 // { ark: true,          // false if one of the following fields is false
 //   naan: true,         // false if it's not the inist naan 
 //   name: true,         // false if subpubliser, identifier or checksum is false
-//   subpublisher: true, // false if not 3 char length and not respecting the alphabet
-//   identifier: true,   // false if not 8 chars len or if it does not respect the alphabet
-//   checksum: true      // false if the checksum is wrong
+//   subpublisher: true, // false if not 3 chars length or not respecting the alphabet
+//   identifier: true,   // false if not 8 chars length or not respecting the alphabet
+//   checksum: true      // false if the checksum is wrong ncda(naan+sp+id)
 // }
 // 
 ```
