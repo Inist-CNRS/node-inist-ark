@@ -10,6 +10,24 @@ function InistArk(opt) {
 
 
 
+// JS implentation of NCDA - see http://search.cpan.org/~jak/Noid/noid#NOID_CHECK_DIGIT_ALGORITHM
+function ncda(input, alphabet) {
+  var R = alphabet.length;
+  var chr = input.split(''), ord = [], pos = []
+  chr.forEach(function(c, i) {
+    var z = alphabet.indexOf(c)
+    ord.push(z > 0 ? z : 0);
+    pos.push(i + 1);
+  })
+  var sum = 0;
+  pos.forEach(function(p, i) {
+    sum += (p * ord[i])
+  });
+  var x = sum % R;
+  return alphabet[x];
+}
+
+
 InistArk.prototype.generate = function (opt) {
   var self          = this;
   opt               = opt || {};
@@ -21,21 +39,7 @@ InistArk.prototype.generate = function (opt) {
     identifier += self.alphabet[Math.floor(Math.random() * self.alphabet.length)];
   }
 
-  // calculating the checksum following ISSN spec
-  var checksum = 0;
-  identifier.split('').forEach(function (char, charPos) {
-    var charInt = self.alphabet.indexOf(char);
-    checksum += charInt * (8 - 1 - charPos);
-  });
-  checksum = (11 - checksum % 11);
-  if (checksum == 11) {
-    checksum = 0;
-  }
-  if (checksum == 10) {
-    checksum = 'X';
-  }
-
-  return 'ark:/67375/' + subpublisher + '-' + identifier + '-' + checksum;
+  return 'ark:/67375/' + subpublisher + '-' + identifier + '-' + ncda('67375/' + subpublisher + '-' + identifier, self.alphabet);
 };
 
 
