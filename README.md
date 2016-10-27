@@ -15,6 +15,11 @@ ARK Label  |    |     |     Check sum (1 char)
 Name Assigning Authority Number (NAAN) (67375 is dedicated for INIST)
 ```
 
+- INIST NAAN will not change ans is this integer: 67375
+- Sub-publisher is handled by a [centralized ARK registry for INIST](todo add the link)
+- Identifier is a string of 8 uppercase characters from this alphabet 0123456789BCDFGHJKLMNPQRSTVWXZ
+- Check sum is 1 character calculated from the ARK identifier following the [ISSN checksum algorithme](https://en.wikipedia.org/wiki/International_Standard_Serial_Number#Code_format). It is used to help detecting mispelled ARK.
+
 ## Install
 
 ```shell
@@ -74,7 +79,7 @@ var InistArk = require('inist-ark');
 var ark = new InistArk();
 ark.validate('ark:/67375/39D-L2DM2F95-7');
 // returns:
-// { ark: true,          // false if one of the folowwing fields is false
+// { ark: true,          // false if one of the following fields is false
 //   naan: true,         // false if it's not the inist naan 
 //   name: true,         // false if subpubliser, identifier or checksum is false
 //   subpublisher: true, // false if not 3 char length and not respecting the alphabet
