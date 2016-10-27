@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - 6.9.1
+script:
+  - npm test
+cache:
+  directories:
+    - node_modules
+notifications:
+  slack: 'inist-dpi:53Jp5iUZeRidSGZn0TukMSKo#activity'
