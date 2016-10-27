@@ -20,7 +20,7 @@ Name Assigning Authority Number (NAAN) (67375 is dedicated for INIST)
 - INIST NAAN will not change and is this integer: 67375
 - Sub-publisher is handled by a [centralized ARK registry for INIST](todo add the link)
 - Identifier is a string of 8 uppercase characters from this alphabet 0123456789BCDFGHJKLMNPQRSTVWXZ
-- Check sum is 1 character calculated from the ARK identifier following the [ISSN checksum algorithme](https://en.wikipedia.org/wiki/International_Standard_Serial_Number#Code_format). It is used to help detecting mispelled ARK.
+- Check sum is 1 character calculated from the ARK identifier following the [NCDA checksum algorithm](http://search.cpan.org/~jak/Noid/noid#NOID_CHECK_DIGIT_ALGORITHM). It is used to help detecting mispelled ARK.
 
 ## Install
 
@@ -91,7 +91,7 @@ ark.validate('ark:/67375/39D-L2DM2F95-7');
 // 
 ```
 
-Checksum calculation is based on the [ISSN algorithme](https://en.wikipedia.org/wiki/International_Standard_Serial_Number#Code_format)
+Checksum calculation is based on the [NCDA algorithm](http://search.cpan.org/~jak/Noid/noid#NOID_CHECK_DIGIT_ALGORITHM)
 
 ## Constructor parameters
 
