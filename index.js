@@ -42,6 +42,14 @@ InistArk.prototype.generate = function (opt) {
   var subpublisher  = opt.subpublisher || self.subpublisher;
   var naan          = opt.naan || self.naan;
 
+  // just check a subpublisher has been setup
+  // cause the ARK will be invalid if no subpublisher choosed
+  if (!subpublisher) {
+    var err = new Error('ARK subpublisher is mandatory to generate a new one.');
+    err.code = 'ark-subpublisher-empty';
+    throw err;
+  }
+
   // generate an ARK identifier of 8 characters
   var identifier    = '';
   for (var i = 0; i < 8 ; i++) {
