@@ -164,6 +164,11 @@ InistArk.prototype.validate = function (rawArk) {
     result.name = false;
   }
 
+  // NAAN checking
+  if (arkSplitted.naan !== self.naan) {
+    result.naan = false;
+  }
+
   return result;
 };
 
