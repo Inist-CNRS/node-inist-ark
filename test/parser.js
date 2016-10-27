@@ -23,8 +23,8 @@ describe('inist-ark parser', function () {
     var ark = new InistArk();
 
     expect(function () {
-      ark.parse('ark:/67375/39D-L2-');
-    }).to.throw(new Error('Invalid ARK syntax'));
+      ark.parse('ark:/67375/39D-L2-4');
+    }).to.throw('Invalid ARK identifier: should be 8 characters long');
 
     done();
   });
