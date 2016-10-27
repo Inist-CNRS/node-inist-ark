@@ -15,7 +15,7 @@ ARK Label  |    |     |     Check sum (1 char)
 Name Assigning Authority Number (NAAN) (67375 is dedicated for INIST)
 ```
 
-- INIST NAAN will not change ans is this integer: 67375
+- INIST NAAN will not change and is this integer: 67375
 - Sub-publisher is handled by a [centralized ARK registry for INIST](todo add the link)
 - Identifier is a string of 8 uppercase characters from this alphabet 0123456789BCDFGHJKLMNPQRSTVWXZ
 - Check sum is 1 character calculated from the ARK identifier following the [ISSN checksum algorithme](https://en.wikipedia.org/wiki/International_Standard_Serial_Number#Code_format). It is used to help detecting mispelled ARK.
