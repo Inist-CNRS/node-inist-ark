@@ -1,3 +1,5 @@
+'use strict';
+
 var InistArk = require('..');
 var expect   = require('chai').expect;
 
@@ -11,7 +13,7 @@ describe('inist-ark generator', function () {
     expect(myFirstArk).to.contain('4G1');
     done();
   });
-  
+
   it('should be able to generate two ARKs', function (done) {
     var ark = new InistArk({ subpublisher: '4G2' });
     var myFirstArk  = ark.generate();

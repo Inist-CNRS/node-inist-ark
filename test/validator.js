@@ -1,3 +1,5 @@
+'use strict';
+
 var InistArk = require('..');
 var expect   = require('chai').expect;
 
@@ -16,7 +18,7 @@ describe('inist-ark validator', function () {
     });
     done();
   });
-  
+
   it('should be able to validate negativly an ARK with a wrong checksum', function (done) {
     var ark = new InistArk();
     var result = ark.validate('ark:/67375/39D-L2DM2F95-5');
@@ -30,7 +32,7 @@ describe('inist-ark validator', function () {
     });
     done();
   });
-  
+
   it('should be able to validate negativly an ARK with a wrong identifier', function (done) {
     var ark = new InistArk();
     var result = ark.validate('ark:/67375/39D-L2DM2-7');
@@ -59,7 +61,8 @@ describe('inist-ark validator', function () {
     done();
   });
 
-  it('should be able to validate negativly an ARK with a wrong naan (not INIST one)', function (done) {
+  it('should be able to validate negativly an ARK' +
+     'with a wrong naan (not INIST one)', function (done) {
     var ark = new InistArk();
     var result = ark.validate('ark:/37375/39-L2DM2F95-7');
     expect(result).to.deep.equal({

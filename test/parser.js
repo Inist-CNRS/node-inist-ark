@@ -1,3 +1,5 @@
+'use strict';
+
 var InistArk = require('..');
 var expect   = require('chai').expect;
 
@@ -16,15 +18,15 @@ describe('inist-ark parser', function () {
     });
     done();
   });
-  
+
   it('should generate an exception if the given ARK is not syntaxicaly valid', function (done) {
     var ark = new InistArk();
 
     expect(function () {
-      ark.parse('ark:/67375/39D-L2-')
+      ark.parse('ark:/67375/39D-L2-');
     }).to.throw(new Error('Invalid ARK syntax'));
 
     done();
   });
-  
+
 });
