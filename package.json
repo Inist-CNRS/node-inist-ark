@@ -1,0 +1,44 @@
+{
+  "name": "inist-ark",
+  "version": "1.0.0",
+  "description": "NodeJS package used to handle \"normalized\" ARK for the INIST organization",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint --ext=.js ./",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Inist-CNRS/node-inist-ark.git"
+  },
+  "keywords": [
+    "ark",
+    "inist",
+    "parse",
+    "validate",
+    "generate"
+  ],
+  "contributors": [
+    {
+      "name": "François Parmentier",
+      "url": "https://github.com/parmentf"
+    },
+    {
+      "name": "Nicolas Thouvenin",
+      "url": "https://github.com/touv"
+    },
+    {
+      "name": "Stéphane Gully",
+      "url": "https://github.com/kerphi"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Inist-CNRS/node-inist-ark/issues"
+  },
+  "homepage": "https://github.com/Inist-CNRS/node-inist-ark#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2"
+  }
+}
