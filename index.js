@@ -3,10 +3,42 @@
 function InistArk(opt) {
   opt = opt || {};
 
-  this.naan         = opt.naan || '67375'; // '67375' is the INIST NAAN
-  this.subpublisher = opt.subpublisher || '';
-  this.alphabet     = opt.alphabet || '0123456789BCDFGHJKLMNPQRSTVWXZ';
+  this.naan          = opt.naan || '67375'; // '67375' is the INIST NAAN
+  this.subpublisher  = opt.subpublisher || '';
+  this.alphabet      = opt.alphabet || '0123456789BCDFGHJKLMNPQRSTVWXZ';
 }
+
+
+
+InistArk.prototype.generate = function (opt) {
+  var self          = this;
+  opt               = opt || {};
+  var subpublisher  = opt.subpublisher || self.subpublisher;
+
+  // generate an ARK identifier of 8 characters
+  var identifier    = '';
+  for (var i = 0; i < 8 ; i++) {
+    identifier += self.alphabet[Math.floor(Math.random() * self.alphabet.length)];
+  }
+
+  // calculating the checksum following ISSN spec
+  var checksum = 0;
+  identifier.split('').forEach(function (char, charPos) {
+    var charInt = self.alphabet.indexOf(char);
+    checksum += charInt * (8 - 1 - charPos);
+  });
+  checksum = (11 - checksum % 11);
+  if (checksum == 11) {
+    checksum = 0;
+  }
+  if (checksum == 10) {
+    checksum = 'X';
+  }
+
+  return 'ark:/67375/' + subpublisher + '-' + identifier + '-' + checksum;
+};
+
+
 
 InistArk.prototype.parse = function (rawArk) {
   var seg = rawArk.split('/');
@@ -42,5 +74,8 @@ InistArk.prototype.parse = function (rawArk) {
   }
   return result;
 };
+
+
+
 
 module.exports = InistArk;
