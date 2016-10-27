@@ -9,7 +9,12 @@ function InistArk(opt) {
 }
 
 
-
+/**
+ * INIST's ARK generator
+ * Use it like this:
+ *   ark.generate(); // returns: ark:/67375/39D-L2DM2F95-7
+ *   ark.generate({ subpublisher: '015' }); // returns: ark:/67375/015-X73BVHH2-2
+ */
 InistArk.prototype.generate = function (opt) {
   var self          = this;
   opt               = opt || {};
@@ -39,7 +44,19 @@ InistArk.prototype.generate = function (opt) {
 };
 
 
-
+/**
+ * INIST's ARK parser
+ * Use it like this:
+ *   ark.parse('ark:/67375/39D-L2DM2F95-7');
+ * Returns:
+ *   { ark:          'ark:/67375/39D-L2DM2F95-7',
+ *     naan:         '67375',
+ *     name:         '39D-L2DM2F95-7',
+ *     subpublisher: '39D',
+ *     identifier:   'L2DM2F95',
+ *     checksum:     '7'
+ *   }
+ */  
 InistArk.prototype.parse = function (rawArk) {
   var seg = rawArk.split('/');
   if (seg.length != 3) {
