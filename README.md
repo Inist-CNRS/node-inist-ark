@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Inist-CNRS/node-inist-ark.svg?branch=master)](https://travis-ci.org/Inist-CNRS/node-inist-ark) [![bitHound Overall Score](https://www.bithound.io/github/Inist-CNRS/node-inist-ark/badges/score.svg)](https://www.bithound.io/github/Inist-CNRS/node-inist-ark)
 
-NodeJS package used to handle "normalized" ARK for the INIST organization.
+NodeJS package used to handle "normalized" ARK for the INIST organization. This library can be used to generate a lot of random and valid ARKs dedicated to a specific NAAN and subpublisher, or to parse an existing ARK as a nice JSON object, or to validate the content of a given ARK (ex: checking this ARK as not been misspelled thanks to its checksum).
 
 INIST's ARK anatomy is:
 
