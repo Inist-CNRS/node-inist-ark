@@ -59,7 +59,7 @@ InistArk.prototype.generate = function (opt) {
   return 'ark:/' + naan + '/' +
     subpublisher + '-' +
     identifier + '-' +
-    ncda(naan + '/' + subpublisher + '-' + identifier, self.alphabet);
+    ncda(naan + subpublisher + identifier, self.alphabet);
 };
 
 
@@ -160,7 +160,7 @@ InistArk.prototype.validate = function (rawArk) {
 
     var ark = self.parse(rawArk);
     var correctCheckSum = ncda(
-      ark.naan + '/' + ark.subpublisher + '-' + ark.identifier,
+      ark.naan + ark.subpublisher + ark.identifier,
       self.alphabet
     );
     result.checksum = (correctCheckSum == ark.checksum);

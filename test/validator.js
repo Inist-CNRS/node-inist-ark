@@ -7,7 +7,7 @@ describe('inist-ark validator', function () {
 
   it('should be able to validate positively a valid ARK', function (done) {
     var ark = new InistArk();
-    var result = ark.validate('ark:/67375/39D-6W3GQPXD-J');
+    var result = ark.validate('ark:/67375/39D-6W3GQPXD-V');
     expect(result).to.deep.equal({
       ark: true,
       naan: true,
