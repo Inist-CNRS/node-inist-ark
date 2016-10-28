@@ -9,13 +9,15 @@ function InistArk(opt) {
 }
 
 
-/**
- * JS implentation of NCDA
- * see http://search.cpan.org/~jak/Noid/noid#NOID_CHECK_DIGIT_ALGORITHM
- */
+//
+// JS implentation of NCDA
+// see http://search.cpan.org/~jak/Noid/noid#NOID_CHECK_DIGIT_ALGORITHM
+//
 function ncda(input, alphabet) {
   var R = alphabet.length;
-  var chr = input.split(''), ord = [], pos = [];
+  var chr = input.split('')
+    , ord = []
+    , pos = [];
   chr.forEach(function (c, i) {
     var z = alphabet.indexOf(c);
     ord.push(z > 0 ? z : 0);
@@ -23,19 +25,19 @@ function ncda(input, alphabet) {
   });
   var sum = 0;
   pos.forEach(function (p, i) {
-    sum += (p * ord[i]);
+    sum += p * ord[i];
   });
   var x = sum % R;
   return alphabet[x];
 }
 
 
-/**
- * INIST's ARK generator
- * Use it like this:
- *   ark.generate(); // returns: ark:/67375/39D-L2DM2F95-7
- *   ark.generate({ subpublisher: '015' }); // returns: ark:/67375/015-X73BVHH2-2
- */
+//
+// INIST's ARK generator
+// Use it like this:
+//   ark.generate(); // returns: ark:/67375/39D-L2DM2F95-7
+//   ark.generate({ subpublisher: '015' }); // returns: ark:/67375/015-X73BVHH2-2
+//
 InistArk.prototype.generate = function (opt) {
   var self          = this;
   opt               = opt || {};
@@ -52,7 +54,7 @@ InistArk.prototype.generate = function (opt) {
 
   // generate an ARK identifier of 8 characters
   var identifier    = '';
-  for (var i = 0; i < 8 ; i++) {
+  for (var i = 0; i < 8; i++) {
     identifier += self.alphabet[Math.floor(Math.random() * self.alphabet.length)];
   }
 
@@ -63,23 +65,23 @@ InistArk.prototype.generate = function (opt) {
 };
 
 
-/**
- * INIST's ARK parser
- * Use it like this:
- *   ark.parse('ark:/67375/39D-L2DM2F95-7');
- * Returns:
- *   { ark:          'ark:/67375/39D-L2DM2F95-7',
- *     naan:         '67375',
- *     name:         '39D-L2DM2F95-7',
- *     subpublisher: '39D',
- *     identifier:   'L2DM2F95',
- *     checksum:     '7'
- *   }
- */
+//
+// INIST's ARK parser
+// Use it like this:
+//   ark.parse('ark:/67375/39D-L2DM2F95-7');
+// Returns:
+//   { ark:          'ark:/67375/39D-L2DM2F95-7',
+//     naan:         '67375',
+//     name:         '39D-L2DM2F95-7',
+//     subpublisher: '39D',
+//     identifier:   'L2DM2F95',
+//     checksum:     '7'
+//   }
+//
 InistArk.prototype.parse = function (rawArk) {
   var seg = rawArk.split('/');
   var err;
-  if (seg.length != 3) {
+  if (seg.length !== 3) {
     err = new Error('Invalid ARK syntax');
     err.code = 'ark-parts';
     throw err;
@@ -95,7 +97,7 @@ InistArk.prototype.parse = function (rawArk) {
     throw err;
   }
   var nameSplitted = seg[2].split('-');
-  if (nameSplitted.length != 3) {
+  if (nameSplitted.length !== 3) {
     err = new Error('Invalid ARK name syntax');
     err.code = 'ark-name-parts';
     throw err;
@@ -109,17 +111,17 @@ InistArk.prototype.parse = function (rawArk) {
     checksum:     nameSplitted[2]
   };
 
-  if (result.subpublisher.length != 3) {
+  if (result.subpublisher.length !== 3) {
     err = new Error('Invalid ARK subpublisher: should be 3 characters long');
     err.code = 'ark-subpublisher-length';
     throw err;
   }
-  if (result.identifier.length != 8) {
+  if (result.identifier.length !== 8) {
     err = new Error('Invalid ARK identifier: should be 8 characters long');
     err.code = 'ark-identifier-length';
     throw err;
   }
-  if (result.checksum.length != 1) {
+  if (result.checksum.length !== 1) {
     err = new Error('Invalid ARK checksum: should be 1 character long');
     err.code = 'ark-checksum-length';
     throw err;
@@ -129,20 +131,19 @@ InistArk.prototype.parse = function (rawArk) {
 
 
 
-/**
- * INIST's ARK validator
- * Use it like this:
- *   ark.validate('ark:/67375/39D-L2DM2F95-7');
- * Returns:
- *   { ark: true,          // false if one of the following fields is false
- *     naan: true,         // false if it's not the inist naan
- *     name: true,         // false if subpubliser, identifier or checksum is false
- *     subpublisher: true, // false if not 3 char length and not respecting the alphabet
- *     identifier: true,   // false if not 8 chars len or if it does not respect the alphabet
- *     checksum: true      // false if the checksum is wrong
- *   }
- *
- */
+//
+// INIST's ARK validator
+// Use it like this:
+//   ark.validate('ark:/67375/39D-L2DM2F95-7');
+// Returns:
+//   { ark: true,          // false if one of the following fields is false
+//     naan: true,         // false if it's not the inist naan
+//     name: true,         // false if subpubliser, identifier or checksum is false
+//     subpublisher: true, // false if not 3 char length and not respecting the alphabet
+//     identifier: true,   // false if not 8 chars len or if it does not respect the alphabet
+//     checksum: true      // false if the checksum is wrong
+//   }
+//
 InistArk.prototype.validate = function (rawArk) {
   var self = this;
 
@@ -163,37 +164,38 @@ InistArk.prototype.validate = function (rawArk) {
       ark.naan + ark.subpublisher + ark.identifier,
       self.alphabet
     );
-    result.checksum = (correctCheckSum == ark.checksum);
+    result.checksum = correctCheckSum === ark.checksum;
 
-  } catch (err) {
+  }
+  catch (err) {
 
     result.ark = false;
-    if (err.code == 'ark-naan') {
+    if (err.code === 'ark-naan') {
       result.naan = false;
     }
-    if (err.code == 'ark-name-parts') {
+    if (err.code === 'ark-name-parts') {
       result.name         = false;
       result.checksum     = false;
       result.subpublisher = false;
       result.identifier   = false;
     }
-    if (err.code == 'ark-subpublisher-length') {
+    if (err.code === 'ark-subpublisher-length') {
       result.subpublisher = false;
       result.checksum     = false;
     }
-    if (err.code == 'ark-identifier-length') {
+    if (err.code === 'ark-identifier-length') {
       result.identifier = false;
       result.checksum   = false;
     }
-    if (err.code == 'ark-checksum-length') {
+    if (err.code === 'ark-checksum-length') {
       result.checksum = false;
     }
 
   }
 
-  if (result.checksum == false ||
-      result.subpublisher == false ||
-      result.identifier == false) {
+  if (result.checksum === false ||
+      result.subpublisher === false ||
+      result.identifier === false) {
     result.ark  = false;
     result.name = false;
   }
