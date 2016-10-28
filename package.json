@@ -4,7 +4,7 @@
   "description": "NodeJS package used to handle \"normalized\" ARK for the INIST organization",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint --ext=.js ./index.js ./test/*.js",
+    "lint": "eslint --ext=.js .",
     "test": "mocha"
   },
   "repository": {
