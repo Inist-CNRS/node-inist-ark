@@ -7,7 +7,7 @@ NodeJS package used to handle "normalized" ARK for the INIST organization.
 INIST's ARK anatomy is:
 
 ```
-    ark:/67375/39D-F91G0S39-N
+    ark:/67375/39D-S2GXG1TW-8
     \__/ \___/ \__/\______/\_/
      |     |    |     |     |
 ARK Label  |    |     |     Check sum (1 char)
@@ -42,7 +42,7 @@ ark.generate(); // returns: ark:/67375/4G1-D4S484DN-9
 ark.generate(); // returns: ark:/67375/4G1-TT6MHSX5-9
 
 var ark2 = new InistArk();
-ark2.generate({ subpublisher: '39D' }); // returns: ark:/67375/39D-F91G0S39-N
+ark2.generate({ subpublisher: '39D' }); // returns: ark:/67375/39D-S2GXG1TW-8
 ark2.generate({ subpublisher: '015' }); // returns: ark:/67375/015-FG0H2546-9
 ark2.generate({ subpublisher: '015' }); // returns: ark:/67375/015-X73BVHH2-2
 ark2.generate({ subpublisher: '015' }); // returns: ark:/67375/015-TD0G7P90-X
@@ -57,7 +57,7 @@ ark2.generate({ subpublisher: '015' }); // returns: ark:/67375/015-58VCS11W-9
 var InistArk = require('inist-ark');
 
 var ark = new InistArk();
-ark.parse('ark:/67375/39D-F91G0S39-N');
+ark.parse('ark:/67375/39D-S2GXG1TW-8');
 // returns:
 // { ark:          'ark:/67375/39D-L2DM2F95-7',
 //   naan:         '67375',
@@ -79,7 +79,7 @@ ark.parse('ark:/67375/39D-L2-');
 var InistArk = require('inist-ark');
 
 var ark = new InistArk();
-ark.validate('ark:/67375/39D-F91G0S39-N');
+ark.validate('ark:/67375/39D-S2GXG1TW-8');
 // returns:
 // { ark: true,          // false if one of the following fields is false
 //   naan: true,         // false if it's not the inist naan 
@@ -104,7 +104,8 @@ var ark = new InistArk({
   
   // setup the defaut subpublisher if you do not want to specify it when calling generate
   // notice that you have to register a subpublihser for your resource at INIST's central ARK registry
-  subpublisher: '39D',
+  // 3 characters length
+  subpublisher: '',
   
   // warn: do not modify if you want to be INIST "normalized"
   // (notice there is no voyels and everything is uppercase)
