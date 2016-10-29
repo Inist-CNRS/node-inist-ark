@@ -1,3 +1,4 @@
+// This file specializes the one in root directory
 module.exports = {
   "env": {
     "node": true,
