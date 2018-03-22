@@ -146,7 +146,13 @@ var ark = new InistArk({
   // setup the defaut subpublisher if you do not want to specify it when calling generate
   // notice that you have to register a subpublihser for your resource at INIST's central ARK registry
   // 3 characters length
+  // if set to false, no subpublisher will be generate
   subpublisher: '',
+  
+  // INIST use a dash as separator be default, 
+  // if we don't want to separate sub publisher,
+  // identifier and checksum with a dash just set this option to false
+  dash: true,
 
   // warn: do not modify if you want to be INIST "normalized"
   // (notice there is no voyels and everything is uppercase)
