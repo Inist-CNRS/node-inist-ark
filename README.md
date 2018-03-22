@@ -68,9 +68,9 @@ ark.parse('ark:/67375/39D-S2GXG1TW-8');
 // }
 
 ark.parse('ark:/67375/39D-L2-');
-// returns: an exception 
+// returns: an exception
 //   new Error('Invalid ARK syntax')
- 
+
 ```
 
 ### Validate an ARK
@@ -82,13 +82,55 @@ var ark = new InistArk();
 ark.validate('ark:/67375/39D-S2GXG1TW-8');
 // returns:
 // { ark: true,          // false if one of the following fields is false
-//   naan: true,         // false if it's not the inist naan 
+//   naan: true,         // false if it's not the inist naan
 //   name: true,         // false if subpubliser, identifier or checksum is false
 //   subpublisher: true, // false if not 3 chars length or not respecting the alphabet
 //   identifier: true,   // false if not 8 chars length or not respecting the alphabet
 //   checksum: true      // false if the checksum is wrong ncda(naan+sp+id)
 // }
-// 
+//
+```
+
+Checksum calculation is based on the [NCDA algorithm](http://search.cpan.org/~jak/Noid/noid#NOID_CHECK_DIGIT_ALGORITHM)
+
+### Generate an ARK without subpublisher
+
+```javascript
+var InistArk = require('inist-ark');
+
+var ark = new InistArk({
+naan: 12345
+subpublisher: false
+});
+ark.generate();
+// returns something like that:
+//     ark:/12345/SX52MR0K-4
+//
+
+
+### Generate an ARK without dash
+
+```javascript
+var InistArk = require('inist-ark');
+
+var ark = new InistArk({
+	naan: 12345,
+	subpublisher: 'XYZ',
+	dash: false,
+});
+ark.generate();
+// returns something like that:
+//     ark:/12345/XYZSHML4WGPD
+//
+
+
+ark.generate({ subpublisher: false });
+// returns something like that:
+//	   ark:/12345/NW4CQCGC4
+//
+
+
+
 ```
 
 Checksum calculation is based on the [NCDA algorithm](http://search.cpan.org/~jak/Noid/noid#NOID_CHECK_DIGIT_ALGORITHM)
@@ -101,12 +143,12 @@ When creating a new InistArk instance, you can specify several parameters:
 var ark = new InistArk({
   // warn: do not modify this option if your are generating ARK for INIST's ressources
   naan: '67375',
-  
+
   // setup the defaut subpublisher if you do not want to specify it when calling generate
   // notice that you have to register a subpublihser for your resource at INIST's central ARK registry
   // 3 characters length
   subpublisher: '',
-  
+
   // warn: do not modify if you want to be INIST "normalized"
   // (notice there is no voyels and everything is uppercase)
   alphabet: '0123456789BCDFGHJKLMNPQRSTVWXZ'

@@ -4,8 +4,9 @@ function InistArk(opt) {
   opt = opt || {};
 
   this.naan          = opt.naan || '67375'; // '67375' is the INIST NAAN
-  this.subpublisher  = opt.subpublisher || '';
+  this.subpublisher  = opt.subpublisher !== undefined ? opt.subpublisher : '';
   this.alphabet      = opt.alphabet || '0123456789BCDFGHJKLMNPQRSTVWXZ';
+  this.dash          = opt.dash !== undefined ? opt.dash : true;
 }
 
 
@@ -31,6 +32,34 @@ function ncda(input, alphabet) {
   return alphabet[x];
 }
 
+function check(id) {
+  if (!id) {
+    return false;
+  }
+  var semaphore = true;
+  id.split('').reduce(function(prev, cur) {
+    if (cur === prev) {
+      semaphore = false;
+    }
+    return cur;
+  });
+  return semaphore;
+}
+
+//
+// generate an ARK identifier of 8 characters
+//
+function identifier(alphabet) {
+  var id;
+  while (check(id) === false) {
+    id = '';
+    for (var i = 0; i < 8; i++) {
+      id += alphabet[Math.floor(Math.random() * alphabet.length)];
+    }
+  }
+  return id;
+}
+
 
 //
 // INIST's ARK generator
@@ -41,26 +70,38 @@ function ncda(input, alphabet) {
 InistArk.prototype.generate = function (opt) {
   var self          = this;
   opt               = opt || {};
-  var subpublisher  = opt.subpublisher || self.subpublisher;
-  var naan          = opt.naan || self.naan;
+  var subpublisher  = opt.subpublisher !== undefined ? opt.subpublisher : self.subpublisher;
+  var dash          = opt.dash !== undefined ? opt.dash : self.dash;
+  var naan          = String(opt.naan || self.naan);
+  var separator     = dash ? '-' : '';
+
+
+  if (naan.length !== 5) {
+    var err1 = new Error('ARK naan is mandatory to generate a new one.');
+    err1.code = 'ark-naan-empty';
+    throw err1;
+  }
+
+  if (subpublisher === false) {
+    return 'ark:/' + naan + '/' +
+      identifier(self.alphabet) +
+      separator +
+      ncda(naan + subpublisher + identifier, self.alphabet);
+  }
 
   // just check a subpublisher has been setup
   // cause the ARK will be invalid if no subpublisher choosed
-  if (!subpublisher) {
-    var err = new Error('ARK subpublisher is mandatory to generate a new one.');
-    err.code = 'ark-subpublisher-empty';
-    throw err;
-  }
-
-  // generate an ARK identifier of 8 characters
-  var identifier    = '';
-  for (var i = 0; i < 8; i++) {
-    identifier += self.alphabet[Math.floor(Math.random() * self.alphabet.length)];
+  if (typeof subpublisher !== 'string' || subpublisher.length !== 3) {
+    var err2 = new Error('ARK subpublisher is mandatory to generate a new one.');
+    err2.code = 'ark-subpublisher-empty';
+    throw err2;
   }
 
   return 'ark:/' + naan + '/' +
-    subpublisher + '-' +
-    identifier + '-' +
+    subpublisher +
+    separator +
+    identifier(self.alphabet) +
+    separator +
     ncda(naan + subpublisher + identifier, self.alphabet);
 };
 
@@ -194,8 +235,8 @@ InistArk.prototype.validate = function (rawArk) {
   }
 
   if (result.checksum === false ||
-      result.subpublisher === false ||
-      result.identifier === false) {
+    result.subpublisher === false ||
+    result.identifier === false) {
     result.ark  = false;
     result.name = false;
   }
