@@ -134,8 +134,6 @@ ark.generate({ subpublisher: false });
 
 ```
 
-Checksum calculation is based on the [NCDA algorithm](http://search.cpan.org/~jak/Noid/noid#NOID_CHECK_DIGIT_ALGORITHM)
-
 ## Constructor parameters
 
 When creating a new InistArk instance, you can specify several parameters:
