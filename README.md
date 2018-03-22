@@ -107,6 +107,7 @@ ark.generate();
 //     ark:/12345/SX52MR0K-4
 //
 
+```
 
 ### Generate an ARK without dash
 
