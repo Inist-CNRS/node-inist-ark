@@ -120,6 +120,7 @@ InistArk.prototype.generate = function (opt) {
 //   }
 //
 InistArk.prototype.parse = function (rawArk) {
+  var self = this;
   var seg = rawArk.split('/');
   var err;
   if (seg.length !== 3) {
@@ -132,12 +133,29 @@ InistArk.prototype.parse = function (rawArk) {
     err.code = 'ark-label';
     throw err;
   }
-  if (seg[1] !== this.naan) {
+  if (seg[1] !== String(self.naan)) {
     err = new Error('Unknow ARK NAAN');
     err.code = 'ark-naan';
     throw err;
   }
-  var nameSplitted = seg[2].split('-');
+  var nameSplitted;
+  if (self.dash) {
+    nameSplitted = seg[2].split('-');
+    if (self.subpublisher === false) {
+      nameSplitted.unshift('');
+    }
+  }
+  else {
+    nameSplitted = ['', '', ''];
+    nameSplitted[2] = seg[2].substr(-1);
+    if (self.subpublisher === false) {
+      nameSplitted[1] = seg[2].substr(0, 8);
+    }
+    else {
+      nameSplitted[0] = seg[2].substr(0, 3);
+      nameSplitted[1] = seg[2].substr(3, 8);
+    }
+  }
   if (nameSplitted.length !== 3) {
     err = new Error('Invalid ARK name syntax');
     err.code = 'ark-name-parts';
@@ -152,7 +170,7 @@ InistArk.prototype.parse = function (rawArk) {
     checksum:     nameSplitted[2]
   };
 
-  if (result.subpublisher.length !== 3) {
+  if (self.subpublisher !== false && result.subpublisher.length !== 3) {
     err = new Error('Invalid ARK subpublisher: should be 3 characters long');
     err.code = 'ark-subpublisher-length';
     throw err;
