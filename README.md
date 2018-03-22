@@ -109,7 +109,7 @@ ark.generate();
 
 ```
 
-### Generate an ARK without dash
+### Generate an ARK without hyphen
 
 ```javascript
 var InistArk = require('inist-ark');
@@ -117,7 +117,7 @@ var InistArk = require('inist-ark');
 var ark = new InistArk({
 	naan: 12345,
 	subpublisher: 'XYZ',
-	dash: false,
+	hyphen: false,
 });
 ark.generate();
 // returns something like that:
@@ -149,10 +149,10 @@ var ark = new InistArk({
   // if set to false, no subpublisher will be generate
   subpublisher: '',
   
-  // INIST use a dash as separator be default, 
+  // INIST use a hyphen as separator be default, 
   // if we don't want to separate sub publisher,
-  // identifier and checksum with a dash just set this option to false
-  dash: true,
+  // identifier and checksum with a hyphen just set this option to false
+  hyphen: true,
 
   // warn: do not modify if you want to be INIST "normalized"
   // (notice there is no voyels and everything is uppercase)

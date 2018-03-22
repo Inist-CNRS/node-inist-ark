@@ -6,7 +6,7 @@ function InistArk(opt) {
   this.naan          = opt.naan || '67375'; // '67375' is the INIST NAAN
   this.subpublisher  = opt.subpublisher !== undefined ? opt.subpublisher : '';
   this.alphabet      = opt.alphabet || '0123456789BCDFGHJKLMNPQRSTVWXZ';
-  this.dash          = opt.dash !== undefined ? opt.dash : true;
+  this.hyphen        = opt.hyphen !== undefined ? opt.hyphen : true;
 }
 
 
@@ -71,9 +71,9 @@ InistArk.prototype.generate = function (opt) {
   var self          = this;
   opt               = opt || {};
   var subpublisher  = opt.subpublisher !== undefined ? opt.subpublisher : self.subpublisher;
-  var dash          = opt.dash !== undefined ? opt.dash : self.dash;
+  var hyphen          = opt.hyphen !== undefined ? opt.hyphen : self.hyphen;
   var naan          = String(opt.naan || self.naan);
-  var separator     = dash ? '-' : '';
+  var separator     = hyphen ? '-' : '';
 
 
   if (naan.length !== 5) {
@@ -139,7 +139,7 @@ InistArk.prototype.parse = function (rawArk) {
     throw err;
   }
   var nameSplitted;
-  if (self.dash) {
+  if (self.hyphen) {
     nameSplitted = seg[2].split('-');
     if (self.subpublisher === false) {
       nameSplitted.unshift('');

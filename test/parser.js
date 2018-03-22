@@ -34,7 +34,7 @@ describe('inist-ark parser', function () {
   });
 
   it('should be able to parse a valid ARK #3', function (done) {
-    var ark = new InistArk({ naan: 12345, subpublisher: false, dash: false });
+    var ark = new InistArk({ naan: 12345, subpublisher: false, hyphen: false });
     var result = ark.parse('ark:/12345/NW4CQCGC4');
     expect(result).to.deep.equal({
       ark:          'ark:/12345/NW4CQCGC4',
@@ -49,7 +49,7 @@ describe('inist-ark parser', function () {
 
 
   it('should be able to parse a valid ARK #4', function (done) {
-    var ark = new InistArk({ naan: 12345, subpublisher: 'XYZ', dash: false });
+    var ark = new InistArk({ naan: 12345, subpublisher: 'XYZ', hyphen: false });
     var result = ark.parse('ark:/12345/XYZSHML4WGPD');
     expect(result).to.deep.equal({
       ark:          'ark:/12345/XYZSHML4WGPD',
