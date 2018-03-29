@@ -49,7 +49,7 @@ function check(id) {
 //
 // generate an ARK identifier of 8 characters
 //
-function identifier(alphabet) {
+function uniqid(alphabet) {
   var id;
   while (check(id) === false) {
     id = '';
@@ -71,9 +71,10 @@ InistArk.prototype.generate = function (opt) {
   var self          = this;
   opt               = opt || {};
   var subpublisher  = opt.subpublisher !== undefined ? opt.subpublisher : self.subpublisher;
-  var hyphen          = opt.hyphen !== undefined ? opt.hyphen : self.hyphen;
+  var hyphen         = opt.hyphen !== undefined ? opt.hyphen : self.hyphen;
   var naan          = String(opt.naan || self.naan);
   var separator     = hyphen ? '-' : '';
+  var identifier    = uniqid(self.alphabet);
 
 
   if (naan.length !== 5) {
@@ -84,9 +85,9 @@ InistArk.prototype.generate = function (opt) {
 
   if (subpublisher === false) {
     return 'ark:/' + naan + '/' +
-      identifier(self.alphabet) +
+      identifier +
       separator +
-      ncda(naan + subpublisher + identifier, self.alphabet);
+      ncda(naan + identifier, self.alphabet);
   }
 
   // just check a subpublisher has been setup
@@ -100,7 +101,7 @@ InistArk.prototype.generate = function (opt) {
   return 'ark:/' + naan + '/' +
     subpublisher +
     separator +
-    identifier(self.alphabet) +
+    identifier +
     separator +
     ncda(naan + subpublisher + identifier, self.alphabet);
 };
@@ -217,17 +218,19 @@ InistArk.prototype.validate = function (rawArk) {
 
   // try to parse the ARK to know which part is wrong
   try {
-
+    var correctCheckSum;
     var ark = self.parse(rawArk);
-    var correctCheckSum = ncda(
-      ark.naan + ark.subpublisher + ark.identifier,
-      self.alphabet
-    );
+    if (self.subpublisher === false) {
+      correctCheckSum = ncda(ark.naan + ark.identifier, self.alphabet);
+    }
+    else {
+      correctCheckSum = ncda(ark.naan + ark.subpublisher + ark.identifier,
+        self.alphabet
+      );
+    }
     result.checksum = correctCheckSum === ark.checksum;
-
   }
   catch (err) {
-
     result.ark = false;
     if (err.code === 'ark-naan') {
       result.naan = false;

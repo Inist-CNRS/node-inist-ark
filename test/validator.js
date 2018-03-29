@@ -4,7 +4,6 @@ var InistArk = require('..');
 var expect   = require('chai').expect;
 
 describe('inist-ark validator', function () {
-
   it('should be able to validate positively a valid ARK', function (done) {
     var ark = new InistArk();
     var result = ark.validate('ark:/67375/39D-6W3GQPXD-V');
@@ -68,6 +67,40 @@ describe('inist-ark validator', function () {
     expect(result).to.deep.equal({
       ark: false,
       naan: false,
+      name: true,
+      subpublisher: true,
+      identifier: true,
+      checksum: true
+    });
+    done();
+  });
+
+  it('should be able to validate a generated ARK', function (done) {
+    var ark = new InistArk({
+      naan: '12345',
+      subpublisher: '39D',
+    });
+    var result = ark.validate(ark.generate());
+    expect(result).to.deep.equal({
+      ark: true,
+      naan: true,
+      name: true,
+      subpublisher: true,
+      identifier: true,
+      checksum: true
+    });
+    done();
+  });
+
+  it('should be able to validate a generated ARK', function (done) {
+    var ark = new InistArk({
+      naan: '67375',
+      subpublisher: false,
+    });
+    var result = ark.validate(ark.generate());
+    expect(result).to.deep.equal({
+      ark: true,
+      naan: true,
       name: true,
       subpublisher: true,
       identifier: true,
