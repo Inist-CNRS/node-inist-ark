@@ -13,7 +13,7 @@ INIST's ARK anatomy is:
     \__/ \___/ \__/\______/\_/
      |     |    |     |     |
 ARK Label  |    |     |     Check sum (1 char)
-           |    |    Identifier (8 chars)
+           |    |    Identifier (8 chars by default)
            |   Sub-publisher (3 chars, it has to be generated in the centralized INIST ARK registry)
            |
 Name Assigning Authority Number (NAAN) (67375 is dedicated for INIST)
@@ -133,6 +133,28 @@ ark.generate({ subpublisher: false });
 //
 
 
+### Generate an ARK with specific length
+
+```javascript
+var InistArk = require('inist-ark');
+
+var ark = new InistArk();
+
+ark.generate({ size:3 });
+// returns something like that:
+//     ark:/12345/XYZ-34V-X
+//
+
+ark.generate({ subpublisher: false, size:4 });
+// returns something like that:
+//     ark:/12345/7XRS-3
+//
+
+ark.generate({ subpublisher: false, size:3, hyphen: false});
+// returns something like that:
+//     ark:/12345/BV81
+//
+
 
 ```
 
@@ -150,8 +172,8 @@ var ark = new InistArk({
   // 3 characters length
   // if set to false, no subpublisher will be generate
   subpublisher: '',
-  
-  // INIST use a hyphen as separator be default, 
+
+  // INIST use a hyphen as separator be default,
   // if we don't want to separate sub publisher,
   // identifier and checksum with a hyphen just set this option to false
   hyphen: true,

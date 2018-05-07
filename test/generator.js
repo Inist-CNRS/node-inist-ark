@@ -15,6 +15,16 @@ describe('inist-ark generator', function () {
     done();
   });
 
+  it('should be able to generate an ARK with specific size', function (done) {
+    var ark = new InistArk({ subpublisher: '4G1', size: 4 });
+    var myFirstArk = ark.generate();
+    expect(myFirstArk).to.contain('ark:/');
+    expect(myFirstArk).to.contain('67375'); // inist NAAN
+    expect(myFirstArk).to.contain('4G1');
+    expect(myFirstArk).to.have.lengthOf(21);
+    done();
+  });
+
   it('should be able to generate two ARKs', function (done) {
     var ark = new InistArk({ subpublisher: '4G2' });
     var myFirstArk  = ark.generate();
@@ -53,6 +63,15 @@ describe('inist-ark generator', function () {
     expect(myArk).to.contain('ark:/');
     expect(myArk).to.contain('/12345/');
     expect(myArk).to.have.lengthOf(21);
+    done();
+  });
+
+  it('should be able to generate ARK without subpublisher but with bigest size', function (done) {
+    var ark = new InistArk({ subpublisher: false, naan: '12345', size:16  });
+    var myArk = ark.generate();
+    expect(myArk).to.contain('ark:/');
+    expect(myArk).to.contain('/12345/');
+    expect(myArk).to.have.lengthOf(29);
     done();
   });
 

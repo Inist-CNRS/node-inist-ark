@@ -7,6 +7,7 @@ function InistArk(opt) {
   this.subpublisher  = opt.subpublisher !== undefined ? opt.subpublisher : '';
   this.alphabet      = opt.alphabet || '0123456789BCDFGHJKLMNPQRSTVWXZ';
   this.hyphen        = opt.hyphen !== undefined ? opt.hyphen : true;
+  this.size          = opt.size || 8;
 }
 
 
@@ -49,11 +50,11 @@ function check(id) {
 //
 // generate an ARK identifier of 8 characters
 //
-function uniqid(alphabet) {
+function uniqid(alphabet, size) {
   var id;
   while (check(id) === false) {
     id = '';
-    for (var i = 0; i < 8; i++) {
+    for (var i = 0; i < size; i++) {
       id += alphabet[Math.floor(Math.random() * alphabet.length)];
     }
   }
@@ -71,10 +72,11 @@ InistArk.prototype.generate = function (opt) {
   var self          = this;
   opt               = opt || {};
   var subpublisher  = opt.subpublisher !== undefined ? opt.subpublisher : self.subpublisher;
-  var hyphen         = opt.hyphen !== undefined ? opt.hyphen : self.hyphen;
+  var hyphen        = opt.hyphen !== undefined ? opt.hyphen : self.hyphen;
   var naan          = String(opt.naan || self.naan);
   var separator     = hyphen ? '-' : '';
-  var identifier    = uniqid(self.alphabet);
+  var size          = opt.size !== undefined ? opt.size : self.size;
+  var identifier    = uniqid(self.alphabet, size);
 
 
   if (naan.length !== 5) {
