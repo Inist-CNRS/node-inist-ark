@@ -132,6 +132,7 @@ ark.generate({ subpublisher: false });
 //	   ark:/12345/NW4CQCGC4
 //
 
+```
 
 ### Generate an ARK with specific length
 
